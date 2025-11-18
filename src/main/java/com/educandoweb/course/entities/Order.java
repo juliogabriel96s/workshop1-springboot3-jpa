@@ -9,6 +9,7 @@ import java.util.Set;
 import com.educandoweb.course.entities.enums.OrdersStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -39,6 +41,9 @@ public class Order implements Serializable {
 	
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItems> items = new HashSet<>(); 
+	
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	private Payments payment;
 	
 	public Order() {
 		
@@ -87,6 +92,15 @@ public class Order implements Serializable {
 		this.client = client;
 	}
 	
+	
+	public Payments getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payments payment) {
+		this.payment = payment;
+	}
+
 	public Set<OrderItems> getItem() {
 		return items;
 	}
